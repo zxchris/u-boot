@@ -53,7 +53,7 @@
 #include <dt-bindings/pinctrl/sun4i-a10.h>
 
 / {
-	model = "Retro Games RedquarkOne";
+	model = "Retro Games Redquark One";
 	compatible = "retrogames,a20-redquarkone", "allwinner,sun7i-a20";
 
 	aliases {
@@ -69,9 +69,9 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&led_pins_redquarkone>;
 
-		green {
-			label = "a20-redquarkone:red:usr";
-			gpios = <&pio 7 2 GPIO_ACTIVE_HIGH>;
+		power {
+			label = "a20-redquarkone:red:power";
+			gpios = <&pio 7 16 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
 	};
@@ -90,6 +90,7 @@
 	status = "okay";
 };
 
+/*
 &gmac {
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac_pins_mii_a>;
@@ -101,6 +102,7 @@
 		reg = <1>;
 	};
 };
+*/
 
 &i2c0 {
 	pinctrl-names = "default";
@@ -118,6 +120,7 @@
 	};
 };
 
+/*
 &i2c1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c1_pins_a>;
@@ -129,6 +132,7 @@
 		pagesize = <16>;
 	};
 };
+*/
 
 &mmc0 {
 	pinctrl-names = "default";
@@ -172,30 +176,19 @@
 		allwinner,drive = <SUN4I_PINCTRL_10_MA>;
 		allwinner,pull = <SUN4I_PINCTRL_PULL_UP>;
 	};
-
+/*
 	usb0_vbus_detect_pin: usb0_vbus_detect_pin@0 {
 		allwinner,pins = "PH5";
 		allwinner,function = "gpio_in";
 		allwinner,drive = <SUN4I_PINCTRL_10_MA>;
 		allwinner,pull = <SUN4I_PINCTRL_PULL_DOWN>;
 	};
+*/
 };
 
 &reg_ahci_5v {
 	pinctrl-0 = <&ahci_pwr_pin_redquarkone>;
 	gpio = <&pio 2 3 GPIO_ACTIVE_HIGH>;
-	status = "okay";
-};
-
-&reg_usb0_vbus {
-	status = "okay";
-};
-
-&reg_usb1_vbus {
-	status = "okay";
-};
-
-&reg_usb2_vbus {
 	status = "okay";
 };
 
@@ -212,11 +205,11 @@
 
 &usbphy {
 	pinctrl-names = "default";
-	pinctrl-0 = <&usb0_id_detect_pin>, <&usb0_vbus_detect_pin>;
+	pinctrl-0 = <&usb0_id_detect_pin>;
 	usb0_id_det-gpio = <&pio 7 4 GPIO_ACTIVE_HIGH>; /* PH4 */
-	usb0_vbus_det-gpio = <&pio 7 5 GPIO_ACTIVE_HIGH>; /* PH5 */
-	usb0_vbus-supply = <&reg_usb0_vbus>;
-	usb1_vbus-supply = <&reg_usb1_vbus>;
-	usb2_vbus-supply = <&reg_usb2_vbus>;
+    usb0_vbus-supply = <&reg_vcc5v0>; /* USB0 VBUS is always on */
+    usb1_vbus-supply = <&reg_vcc5v0>; /* USB1 VBUS is always on */
+    usb2_vbus-supply = <&reg_vcc5v0>; /* USB2 VBUS is always on */
+
 	status = "okay";
 };
